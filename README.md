@@ -1,4 +1,4 @@
-# Java LeetCode Solutions
+# Java LeetCode DSA Solutions
 
 Welcome to my LeetCode journey! 👋
 
