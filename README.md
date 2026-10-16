@@ -52,7 +52,7 @@ For every problem, I follow this workflow:
 | Trees | 6 |
 | Heaps | 1 |
 | Tries | 2 |
-| Graph | 0 |
+| Graph | 1 |
 | Dynamic Programming | 0 |
 
 ---
