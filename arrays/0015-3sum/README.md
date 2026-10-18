@@ -1,142 +1,73 @@
-3Sum
-Problem
-Given an integer array nums, return all unique triplets [nums[i], nums[j], nums[k]] such that:
+# 🎯 15. 3Sum
+
+**Difficulty:** Medium 🟡  
+**Topic:** Array / Sorting / Two Pointers  
+**Language:** Java
+
+## 📌 Problem Description
+
+Given an integer array `nums`, return all **unique triplets** whose sum equals zero.
+
+Each triplet must satisfy:
+
+```text
 nums[i] + nums[j] + nums[k] == 0
-The solution must not contain duplicate triplets.
-Example:
-Input:
+```
+
+The three indices must be different, and the result must not contain duplicate triplets.
+
+### Example
+
+**Input:**
+
+```text
 nums = [-1, 0, 1, 2, -1, -4]
+```
 
-Output:
-[[-1, -1, 2], [-1, 0, 1]]
-Approach
-We use:
-Sorting + Two Pointers
-First, sort the array.
-For example:
-Original:
-[-1, 0, 1, 2, -1, -4]
+**Output:**
 
-Sorted:
-[-4, -1, -1, 0, 1, 2]
-Then we choose one number using i.
-For the remaining two numbers, we use two pointers:
-left = i + 1
-right = nums.length - 1
-So the structure looks like:
-        i   left             right
-        ↓    ↓                 ↓
-[-4,   -1,  -1,   0,   1,     2]
-For every position of i, we calculate:
-int sum = nums[i] + nums[left] + nums[right];
-There are three possible cases.
-Case 1: sum == 0
-We found a valid triplet.
-result.add(Arrays.asList(
-    nums[i],
-    nums[left],
-    nums[right]
-));
-Then move both pointers:
-left++;
-right--;
-Case 2: sum < 0
-The sum is too small.
-Because the array is sorted, we need a larger number.
-So we move left to the right:
-left++;
-Example:
-[-4, -1, 0, 1, 2]
-      ↑           ↑
-     left        right
-
-left →
-Moving left to the right gives us a larger value.
-Case 3: sum > 0
-The sum is too large.
-We need a smaller number.
-So we move right to the left:
-right--;
-left →           ← right
-The important rule is:
-sum < 0  → left++
-sum > 0  → right--
-Handling Duplicates
-The problem requires unique triplets.
-For example, we don't want:
-[-1, 0, 1]
-[-1, 0, 1]
-[-1, 0, 1]
-Duplicate i
-After sorting, duplicate values are next to each other.
-Therefore:
-if (i > 0 && nums[i] == nums[i - 1])
-    continue;
-If the current value of i is the same as the previous value, we skip it.
-Duplicate left
-After finding a valid triplet, we first move:
-left++;
-Then we check whether the new value is the same as the value we just used:
-while (left < right &&
-       nums[left] == nums[left - 1])
-    left++;
-For example:
-[-2, 0, 0, 0, 2]
-     ↑
-   old left
-After left++:
-[-2, 0, 0, 0, 2]
-        ↑
-       left
-Since:
-nums[left] == nums[left - 1]
-
-0 == 0
-we skip this duplicate.
-Duplicate right
-The same idea applies to right.
-After:
-right--;
-we check:
-while (left < right &&
-       nums[right] == nums[right + 1])
-    right--;
-Notice the difference:
-left  compares with left - 1
-right compares with right + 1
-This is because:
-left moves  →
-right moves ←
-Example Walkthrough
-Consider:
-nums = [-1, 0, 1, 2, -1, -4]
-After sorting:
-[-4, -1, -1, 0, 1, 2]
-Eventually i points to -1:
-[-4, -1, -1, 0, 1, 2]
-      ↑   ↑           ↑
-      i  left       right
-Calculate:
--1 + -1 + 2 = 0
-So:
-[-1, -1, 2]
-is added to the result.
-Move both pointers.
-Later we get:
--1 + 0 + 1 = 0
-So:
-[-1, 0, 1]
-is also added.
-Final result:
+```text
 [
     [-1, -1, 2],
     [-1, 0, 1]
 ]
-Java Solution
+```
+
+Both triplets sum to zero, and each appears only once.
+
+## 💡 Approach — Sorting + Two Pointers
+
+Instead of checking every combination using three nested loops, we can solve this problem using **Sorting + Two Pointers**.
+
+First, sort the array:
+
+```text
+Original: [-1, 0, 1, 2, -1, -4]
+Sorted:   [-4, -1, -1, 0, 1, 2]
+```
+
+Then, for each index `i`:
+
+1. Fix `nums[i]` as the first number.
+2. Set `left = i + 1` and `right = nums.length - 1`.
+3. Calculate the sum of the three numbers.
+4. Move the pointers depending on the sum.
+5. Skip duplicates to avoid repeated triplets.
+
+The pointer movement follows three rules:
+
+| Condition | Action |
+|---|---|
+| `sum == 0` | Save the triplet and move both pointers |
+| `sum < 0` | Move `left++` to increase the sum |
+| `sum > 0` | Move `right--` to decrease the sum |
+
+## 💻 Java Solution
+
+```java
 import java.util.*;
 
 class Solution {
-
     public List<List<Integer>> threeSum(int[] nums) {
 
         List<List<Integer>> result = new ArrayList<>();
@@ -188,40 +119,268 @@ class Solution {
         return result;
     }
 }
-Time Complexity
+```
+
+## 🔍 Step-by-Step Explanation
+
+### Step 1: Sort the Array
+
+```java
+Arrays.sort(nums);
+```
+
+Sorting allows us to use Two Pointers efficiently.
+
+Since the numbers are ordered:
+
+- Moving `left` right gives us a larger or equal value.
+- Moving `right` left gives us a smaller or equal value.
+
+This helps us adjust the sum without checking every possible triplet.
+
+### Step 2: Fix the First Number
+
+```java
+for (int i = 0; i < nums.length - 2; i++)
+```
+
+We select one number using `i`.
+
+Then initialize:
+
+```java
+int left = i + 1;
+int right = nums.length - 1;
+```
+
+For example:
+
+```text
+[-4, -1, -1, 0, 1, 2]
+  ↑   ↑              ↑
+  i  left           right
+```
+
+The two pointers search for a pair that makes the total sum zero.
+
+### Step 3: Calculate the Sum
+
+```java
+int sum = nums[i] + nums[left] + nums[right];
+```
+
+There are three possibilities.
+
+**If `sum == 0`:**
+
+```java
+result.add(Arrays.asList(
+    nums[i], nums[left], nums[right]
+));
+```
+
+We found a valid triplet. Save it, then move both pointers inward.
+
+**If `sum < 0`:**
+
+```java
+left++;
+```
+
+The sum is too small, so we need a larger number.
+
+**If `sum > 0`:**
+
+```java
+right--;
+```
+
+The sum is too large, so we need a smaller number.
+
+## 🧩 Handling Duplicate Triplets
+
+The problem requires **unique triplets**, so skipping duplicates is essential.
+
+### 1. Skip Duplicate `i` Values
+
+```java
+if (i > 0 && nums[i] == nums[i - 1])
+    continue;
+```
+
+If the current fixed number is the same as the previous one, we skip it.
+
+This prevents us from repeating the same search with the same starting value.
+
+### 2. Skip Duplicate `left` Values
+
+After finding a valid triplet, we move `left` forward:
+
+```java
+left++;
+```
+
+Then skip repeated values:
+
+```java
+while (left < right && nums[left] == nums[left - 1])
+    left++;
+```
+
+For example:
+
+```text
+[-2, 0, 0, 0, 2]
+```
+
+After using the first `0`, we skip the remaining duplicate zeros instead of producing the same triplet again.
+
+### 3. Skip Duplicate `right` Values
+
+Similarly, after moving `right` backward:
+
+```java
+right--;
+```
+
+We skip duplicates:
+
+```java
+while (left < right && nums[right] == nums[right + 1])
+    right--;
+```
+
+**Important difference:**
+
+```text
+left  → compare with left - 1
+right → compare with right + 1
+```
+
+This is because `left` moves forward while `right` moves backward.
+
+## 🔄 Example Walkthrough
+
+**Input:**
+
+```text
+nums = [-1, 0, 1, 2, -1, -4]
+```
+
+After sorting:
+
+```text
+[-4, -1, -1, 0, 1, 2]
+```
+
+When `i` points to the first `-1`:
+
+```text
+[-4, -1, -1, 0, 1, 2]
+      ↑   ↑          ↑
+      i  left       right
+```
+
+Calculate:
+
+```text
+-1 + (-1) + 2 = 0
+```
+
+We found:
+
+```text
+[-1, -1, 2]
+```
+
+Add it to the result and move both pointers.
+
+Now:
+
+```text
+-1 + 0 + 1 = 0
+```
+
+We found another triplet:
+
+```text
+[-1, 0, 1]
+```
+
+After skipping duplicates and completing the search, the final result is:
+
+```text
+[
+    [-1, -1, 2],
+    [-1, 0, 1]
+]
+```
+
+## ⏱️ Complexity Analysis
+
+### Time Complexity — O(n²)
+
 Sorting takes:
-O(n log n)
-The outer loop runs approximately n times.
-For every i, the two pointers scan the remaining part of the array in O(n) time.
+
+**O(n log n)**
+
+The outer loop runs O(n) times, and for each fixed number, the Two Pointers search takes at most O(n).
+
 Therefore:
-O(n × n) = O(n²)
-Overall:
-O(n log n) + O(n²)
-which simplifies to:
-O(n²)
-Space Complexity
-Ignoring the output list, the algorithm uses only a few variables:
-i
-left
-right
-sum
-Therefore, the extra space is approximately:
-O(1)
-The sorting implementation may use additional internal memory depending on the language/library.
-Key Idea
-Instead of checking every possible combination using three nested loops:
-O(n³)
-we sort the array and fix one number.
-Then we find the other two numbers using Two Pointers:
-Fix one number
-      +
-Two Pointers
-      ↓
-O(n²)
-The most important rule to remember is:
-sum == 0 → found a triplet
 
-sum < 0  → left++
+```text
+O(n log n) + O(n²) = O(n²)
+```
 
-sum > 0  → right--
-And duplicates must be skipped so that every triplet appears only once.
+**Time Complexity: O(n²)**
+
+### Space Complexity — O(1) Auxiliary Space
+
+Ignoring the output and the sorting implementation, the algorithm only uses a few variables:
+
+- `i`
+- `left`
+- `right`
+- `sum`
+
+The Two Pointers search itself uses **O(1)** extra space.
+
+Java's `Arrays.sort(int[])` may use additional stack space, so the complete implementation's auxiliary space is not strictly O(1).
+
+The output list also requires space proportional to the number of triplets found.
+
+## 🧠 Key Takeaways
+
+- Sorting makes the **Two Pointers** technique possible.
+- Fix one number and search for the other two using opposite-direction pointers.
+- If the sum is too small, move `left++`.
+- If the sum is too large, move `right--`.
+- If the sum is zero, save the triplet and move both pointers.
+- Skip duplicate values for `i`, `left`, and `right`.
+- Sorting + Two Pointers reduces the time complexity from O(n³) to **O(n²)**.
+
+### ⭐ Pattern to Remember
+
+```text
+       Sort the Array
+              ↓
+      Fix One Number (i)
+              ↓
+   left →         ← right
+              ↓
+       Calculate Sum
+              ↓
+    ┌─────────┼─────────┐
+    ↓         ↓         ↓
+ sum < 0   sum == 0   sum > 0
+    ↓         ↓         ↓
+  left++   Save Triplet right--
+              ↓
+       Skip Duplicates
+```
+
+**Pattern Learned:** Sorting + Two Pointers + Duplicate Handling
+
+## 🔗 LeetCode Problem
+
+[15. 3Sum](https://leetcode.com/problems/3sum/)
