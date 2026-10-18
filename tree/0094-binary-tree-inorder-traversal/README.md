@@ -1,89 +1,256 @@
-LeetCode 94 - Binary Tree Inorder Traversal
-Problem
-Given the root of a binary tree, return the inorder traversal of its nodes' values.
+# 🌳 94. Binary Tree Inorder Traversal
+
+**Difficulty:** Easy 🟢  
+**Topic:** Binary Tree / Depth-First Search (DFS) / Recursion  
+**Language:** Java
+
+## 📌 Problem Description
+
+Given the root of a binary tree, return the **inorder traversal** of its nodes' values.
+
 Inorder traversal follows this order:
-Left → Root → Right
-Approach - Recursion
-I solved this problem using recursion.
-For every node:
-Traverse the left subtree.
-Add the current node's value.
-Traverse the right subtree.
-Combine the results and return them.
-The base case happens when root == null.
-In that case, there is nothing to traverse, so I return an empty list.
-Solution
-public List<Integer> inorderTraversal(TreeNode root) {
 
-    if (root == null)
-        return new ArrayList<>();
+**Left → Root → Right**
 
-    List<Integer> leftResult = inorderTraversal(root.left);
-    List<Integer> rightResult = inorderTraversal(root.right);
+This means we visit the left subtree first, then the current node, and finally the right subtree.
 
-    List<Integer> result = new ArrayList<>();
+## 💡 Approach — Recursive Inorder Traversal
 
-    result.addAll(leftResult);
-    result.add(root.val);
-    result.addAll(rightResult);
+We use **recursion** to traverse the binary tree.
 
-    return result;
+For each node:
+
+1. Recursively traverse the left subtree.
+2. Recursively traverse the right subtree.
+3. Create a result list.
+4. Add the left subtree's values.
+5. Add the current node's value.
+6. Add the right subtree's values.
+7. Return the combined list.
+
+Although the right recursive call is evaluated before the lists are combined, the final result still follows **Left → Root → Right**.
+
+### Base Case
+
+When the current node is `null`, there is nothing to traverse.
+
+```java
+if (root == null)
+    return new ArrayList<>();
+```
+
+Returning an empty list allows the recursive results to be combined without special handling.
+
+## 💻 Java Solution
+
+```java
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null)
+            return new ArrayList<>();
+
+        List<Integer> leftResult = inorderTraversal(root.left);
+        List<Integer> rightResult = inorderTraversal(root.right);
+
+        List<Integer> result = new ArrayList<>();
+
+        result.addAll(leftResult);
+        result.add(root.val);
+        result.addAll(rightResult);
+
+        return result;
+    }
 }
-Example
-For this tree:
+```
+
+*Note: LeetCode provides the `TreeNode` class. The solution uses `List` and `ArrayList` from `java.util`.*
+
+## 🔍 Example
+
+Consider the following binary tree:
+
+```text
         10
        /  \
       5    15
      / \
     2   7
-The inorder traversal is:
+```
+
+**Inorder traversal:**
+
+```text
 Left → Root → Right
-The recursive calls eventually return:
-inorder(2)  → [2]
-inorder(7)  → [7]
-inorder(5)  → [2, 5, 7]
-inorder(15) → [15]
-inorder(10) → [2, 5, 7, 10, 15]
-Final result:
+```
+
+**Step-by-step results:**
+
+| Recursive Call | Returned List |
+|----------------|---------------|
+| `inorderTraversal(2)` | `[2]` |
+| `inorderTraversal(7)` | `[7]` |
+| `inorderTraversal(5)` | `[2, 5, 7]` |
+| `inorderTraversal(15)` | `[15]` |
+| `inorderTraversal(10)` | `[2, 5, 7, 10, 15]` |
+
+**Final Output:**
+
+```text
 [2, 5, 7, 10, 15]
-Understanding the Recursion
-One of the most important things I learned from this problem is how recursive calls work.
-When a method calls itself, the current method call does not disappear.
+```
+
+## 🔄 Understanding Recursion
+
+One of the most important concepts in this problem is understanding how **recursive calls and the call stack** work.
+
+When a method calls itself, the current method does not disappear.
+
 Instead, it pauses and waits for the recursive call to finish.
+
 For example:
-inorder(10)
+
+```text
+inorderTraversal(10)
     ↓
-inorder(5)
+inorderTraversal(5)
     ↓
-inorder(2)
+inorderTraversal(2)
     ↓
-inorder(null)
-When root == null, the base case is reached and an empty list is returned.
-Then the recursive calls start returning back up:
-inorder(null) → []
-inorder(2)    → [2]
-inorder(5)    → [2, 5, 7]
-inorder(10)   → [2, 5, 7, 10, 15]
-Another important point is that when a recursive call returns, the method does not start again from the beginning.
-It continues from the line where the recursive call was made.
-For example:
+inorderTraversal(null)
+```
+
+When `root == null`, the base case is reached and an empty list is returned.
+
+The recursive calls then begin returning their results.
+
+```text
+inorderTraversal(null) → []
+inorderTraversal(2)    → [2]
+inorderTraversal(5)    → [2, 5, 7]
+inorderTraversal(10)   → [2, 5, 7, 10, 15]
+```
+
+These results are shown after each corresponding subtree has been fully processed.
+
+### How Does Execution Continue?
+
+Consider these two lines:
+
+```java
 List<Integer> leftResult = inorderTraversal(root.left);
-
-// After the left recursive call returns,
-// execution continues from here.
-
 List<Integer> rightResult = inorderTraversal(root.right);
-This helped me understand the recursive call stack more clearly.
-Complexity
-Time Complexity: O(n)
-Every node in the tree is visited once.
-Space Complexity: O(h)
-The recursive call stack depends on the height of the tree, where h is the height of the binary tree.
-In the worst case, for a completely unbalanced tree, the space complexity can become O(n).
-What I Learned
-How inorder traversal follows Left → Root → Right
-How to use recursion to traverse a binary tree
-How the base case stops recursive calls
-How recursive calls pause and return back through the call stack
-How to combine the results returned from recursive calls
-The difference between add() and addAll() when working with lists
+```
+
+When the first recursive call starts, the current method pauses.
+
+After the left subtree returns its result, execution continues from the **next line**, not from the beginning of the method.
+
+Then the right subtree is processed.
+
+Finally, both results are combined with the current node's value.
+
+This is how the recursive call stack allows the algorithm to return to previous nodes.
+
+## 🧩 Understanding add() vs. addAll()
+
+Both methods are used when building the final traversal result.
+
+**`add()` — Adds a single element**
+
+```java
+result.add(root.val);
+```
+
+For example:
+
+```text
+Before: [2, 5]
+Add:    7
+After:  [2, 5, 7]
+```
+
+**`addAll()` — Adds all elements from another collection**
+
+```java
+result.addAll(leftResult);
+```
+
+For example:
+
+```text
+result     = []
+leftResult = [2, 5, 7]
+
+After addAll:
+result = [2, 5, 7]
+```
+
+In this solution, we combine the traversal results using:
+
+```java
+result.addAll(leftResult);
+result.add(root.val);
+result.addAll(rightResult);
+```
+
+This produces the correct inorder sequence.
+
+## ⏱️ Complexity Analysis
+
+Let:
+
+- `n` = Number of nodes in the binary tree.
+- `h` = Height of the binary tree.
+
+### Time Complexity
+
+**O(n log n) for a balanced tree**
+
+**O(n²) in the worst case**
+
+Every node is visited once, but this implementation also creates new lists and copies elements using `addAll()`.
+
+For a balanced tree, the repeated copying takes O(n log n) time.
+
+For a completely unbalanced tree, the same values may be copied repeatedly through many recursive levels, resulting in O(n²) time.
+
+### Space Complexity
+
+**O(n + h)** peak space, including the returned lists and recursion stack.
+
+- The recursive call stack requires O(h) space.
+- The lists created and retained during traversal require O(n) peak space.
+
+For a balanced tree, `h = O(log n)`.
+
+For a completely unbalanced tree, `h = O(n)`.
+
+Therefore, the overall peak space complexity is **O(n)**.
+
+### Possible Optimization
+
+We can optimize the solution by using a **single shared result list** and adding node values directly during traversal.
+
+That approach achieves:
+
+- **Time:** O(n)
+- **Auxiliary Space:** O(h), excluding the output list.
+
+However, the current implementation is useful for understanding how recursive methods return and combine results.
+
+## 🧠 Key Takeaways
+
+- Inorder traversal follows **Left → Root → Right**.
+- Recursion allows us to traverse a binary tree without manually managing a stack.
+- The base case `root == null` stops recursive calls.
+- Each recursive call pauses while deeper calls execute.
+- When a recursive call returns, execution continues from the next statement.
+- Recursive methods can return lists that are combined into a final result.
+- `add()` inserts one element, while `addAll()` inserts all elements from another collection.
+- Repeatedly combining lists is easy to understand but can be less efficient than using a shared result list.
+
+**Pattern Learned:** Binary Tree + DFS + Recursion + Combining Recursive Results
+
+## 🔗 LeetCode Problem
+
+[94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)
