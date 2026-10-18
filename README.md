@@ -50,7 +50,7 @@ For every problem, I follow this workflow:
 | Queue | 5 |
 | Hash Table | 4 |
 | Trees | 6 |
-| Heaps | 1 |
+| Heaps | 2 |
 | Tries | 2 |
 | Graph | 1 |
 | Dynamic Programming | 0 |
