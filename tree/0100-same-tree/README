@@ -1,189 +1,312 @@
-LeetCode 100 - Same Tree
-Problem
-Given the roots of two binary trees, p and q, determine whether they are exactly the same.
-Two trees are considered the same when:
-They have the same structure.
-Corresponding nodes have the same values.
-Example:
-Tree p:        Tree q:
+# 🌳 100. Same Tree
 
-    1              1
-   / \            / \
-  2   3          2   3
-Output:
+**Difficulty:** Easy 🟢  
+**Topic:** Binary Tree / Depth-First Search (DFS) / Recursion  
+**Language:** Java
+
+## 📌 Problem Description
+
+Given the roots of two binary trees, `p` and `q`, determine whether they are exactly the same.
+
+Two binary trees are considered identical when:
+
+- They have the **same structure**.
+- Corresponding nodes have the **same values**.
+
+Both conditions must be satisfied.
+
+### Example 1 — Identical Trees
+
+```text
+Tree p:              Tree q:
+
+    1                    1
+   / \                  / \
+  2   3                2   3
+```
+
+**Output:**
+
+```text
 true
-But these are not the same:
-Tree p:        Tree q:
+```
 
-    1              1
-   /                \
-  2                  2
-Even though the values are the same, the structure is different.
-Output:
+Both trees have identical values and structure.
+
+### Example 2 — Different Structures
+
+```text
+Tree p:              Tree q:
+
+    1                    1
+   /                      \
+  2                        2
+```
+
+**Output:**
+
+```text
 false
+```
 
+Even though both trees contain the same values, their structures are different.
 
-⸻
+## 💡 Approach — Recursive Tree Comparison
 
+We use **recursion** to compare both trees node by node.
 
-Initial Idea
-My idea was to compare the two trees recursively.
 For every pair of nodes:
-Check whether both nodes are null.
-If both nodes exist, compare them.
-Recursively compare the left subtrees.
-Recursively compare the right subtrees.
-If only one node is null, the trees are different.
-The recursive approach fits naturally because each tree can be broken down into smaller left and right subtrees.
 
+1. Check whether both nodes are `null`.
+2. If both nodes exist, compare their values.
+3. Recursively compare their left subtrees.
+4. Recursively compare their right subtrees.
+5. If only one node is `null`, return `false`.
 
-⸻
+Recursion works naturally here because each tree can be divided into smaller left and right subtrees.
 
+### Case 1: Both Nodes Are Null
 
-Mistake I Made
-At first, I used:
-p == q
-to compare two nodes.
-This does not compare the values inside the nodes.
-In Java, when p and q are objects:
-p == q
-checks whether both references point to the exact same object in memory.
-For example:
-p → TreeNode(val = 1)
-q → TreeNode(val = 1)
-Even though:
-p.val == q.val
-is:
-true
-the expression:
-p == q
-can still be:
-false
-because they are two different TreeNode objects.
-The correct comparison is:
-p.val == q.val
-
-
-⸻
-
-
-Final Approach
-There are three main cases.
-Case 1: Both Nodes Are Null
+```java
 if (p == null && q == null)
     return true;
-If both nodes are null, this part of both trees has the same structure.
+```
 
+If both nodes are `null`, their structures match at this position.
 
-⸻
+This is one of our base cases.
 
+### Case 2: Both Nodes Exist
 
-Case 2: Both Nodes Exist
-If both nodes are not null, three conditions must all be true:
-current values are equal
-AND
-left subtrees are equal
-AND
-right subtrees are equal
-So:
-return p.val == q.val
-        && isSameTree(p.left, q.left)
-        && isSameTree(p.right, q.right);
+When both nodes exist, three conditions must be satisfied:
 
+- Their values are equal.
+- Their left subtrees are identical.
+- Their right subtrees are identical.
 
-⸻
+```java
+if (p != null && q != null)
+    return p.val == q.val
+            && isSameTree(p.left, q.left)
+            && isSameTree(p.right, q.right);
+```
 
+The `&&` operator ensures that **all three conditions** must be true.
 
-Case 3: Only One Node Is Null
-If execution reaches the end, then one node exists while the other is null.
+If any condition fails, the result is `false`.
+
+### Case 3: Only One Node Is Null
+
+If one node is `null` and the other is not, the structures are different.
+
+```java
+return false;
+```
+
 For example:
-p:          q:
 
-    1           1
-   /             \
-  2               2
-At some point we compare:
-p.left = 2
+```text
+p.left = TreeNode(2)
 q.left = null
-So the structures are different and we return:
-false
+```
 
+The trees cannot be identical because one contains a node where the other does not.
 
-⸻
+## 💻 Java Solution
 
+```java
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
 
-Solution
-public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null)
+            return true;
 
-    if (p == null && q == null)
-        return true;
+        if (p != null && q != null)
+            return p.val == q.val
+                    && isSameTree(p.left, q.left)
+                    && isSameTree(p.right, q.right);
 
-    if (p != null && q != null)
-        return p.val == q.val
-                && isSameTree(p.left, q.left)
-                && isSameTree(p.right, q.right);
-
-    return false;
+        return false;
+    }
 }
+```
 
+*Note: LeetCode provides the `TreeNode` class.*
 
-⸻
+## 🔍 Example — Recursive Trace
 
+Consider these two trees:
 
-Recursive Trace
-Consider:
-p:              q:
+```text
+Tree p:              Tree q:
 
-     1               1
-    / \             / \
-   2   3           2   3
-The recursive calls look like:
+     1                    1
+    / \                  / \
+   2   3                2   3
+```
+
+The recursive calls look like this:
+
+```text
 isSameTree(1, 1)
 │
-├── 1 == 1 ✅
+├── Compare values: 1 == 1 ✓
 │
 ├── isSameTree(2, 2)
 │   │
-│   ├── 2 == 2 ✅
+│   ├── Compare values: 2 == 2 ✓
 │   ├── isSameTree(null, null) → true
 │   └── isSameTree(null, null) → true
 │
 └── isSameTree(3, 3)
     │
-    ├── 3 == 3 ✅
+    ├── Compare values: 3 == 3 ✓
     ├── isSameTree(null, null) → true
     └── isSameTree(null, null) → true
+```
 
-Result → true
-The recursion only returns true if every corresponding pair of nodes matches.
+**Final Output:**
 
+```text
+true
+```
 
-⸻
+Every corresponding pair of nodes has matching values and structure.
 
+Therefore, both trees are identical.
 
-What I Learned
-Recursion is a natural way to compare two binary trees.
-Two trees must have both the same values and the same structure.
-p == q compares object references, not the node values.
-To compare the values stored inside two nodes, use:
+## 🔄 Understanding the Recursive Logic
+
+The main part of the solution is:
+
+```java
+return p.val == q.val
+        && isSameTree(p.left, q.left)
+        && isSameTree(p.right, q.right);
+```
+
+This statement combines three checks into one boolean expression.
+
+| Condition | What It Checks |
+|-----------|----------------|
+| `p.val == q.val` | Current node values are equal |
+| `isSameTree(p.left, q.left)` | Left subtrees are identical |
+| `isSameTree(p.right, q.right)` | Right subtrees are identical |
+
+All three must return `true`.
+
+### Short-Circuit Evaluation
+
+Java evaluates `&&` expressions from left to right.
+
+If the current node values are different:
+
+```java
 p.val == q.val
-Base cases are very important in recursive tree problems.
-Comparing null positions is also necessary because tree structure matters.
+```
 
+returns `false`.
 
-⸻
+Java does not need to evaluate the remaining recursive calls because the entire expression is already `false`.
 
+Similarly, if the left subtrees are different, the right subtrees do not need to be compared.
 
-Complexity
-Let n be the number of nodes in the trees.
-Time Complexity
-O(n)
-In the worst case, we visit every node once.
-Space Complexity
-O(h)
-where h is the height of the tree.
-This space is used by the recursive call stack.
-For a balanced tree:
-O(log n)
-For a completely skewed tree:
-O(n)
+This allows the algorithm to stop as soon as it finds a mismatch.
+
+## ⚠️ Mistake I Made — Comparing Objects Instead of Values
+
+Initially, I tried comparing two nodes using:
+
+```java
+p == q
+```
+
+However, in Java, `==` compares **object references** when used with objects.
+
+It checks whether two references point to the exact same object in memory.
+
+Consider:
+
+```java
+TreeNode p = new TreeNode(1);
+TreeNode q = new TreeNode(1);
+```
+
+Even though both nodes contain the same value:
+
+```java
+p.val == q.val  // true
+```
+
+The objects are different:
+
+```java
+p == q  // false
+```
+
+The correct way to compare the values stored inside the nodes is:
+
+```java
+p.val == q.val
+```
+
+### Key Difference
+
+| Expression | Meaning |
+|------------|---------|
+| `p == q` | Compares object references |
+| `p.val == q.val` | Compares the integer values stored in the nodes |
+
+**Important:** Two different objects can store identical values.
+
+Understanding this distinction is essential when working with objects in Java.
+
+## ⏱️ Complexity Analysis
+
+Let:
+
+- `n` = Number of nodes in the smaller tree.
+- `h` = Maximum recursion depth.
+
+### Time Complexity — O(n)
+
+In the worst case, we compare every corresponding node in the smaller tree.
+
+Each comparison performs constant-time work, excluding recursive calls.
+
+Therefore:
+
+**Time Complexity: O(n)**
+
+If the trees differ early, the algorithm may stop before visiting every node.
+
+### Space Complexity — O(h)
+
+The additional space is used by the recursive call stack.
+
+The maximum recursion depth depends on the height of the trees.
+
+| Tree Structure | Space Complexity |
+|----------------|------------------|
+| Balanced tree | O(log n) |
+| Completely skewed tree | O(n) |
+
+Therefore, the worst-case auxiliary space complexity is **O(n)**.
+
+## 🧠 Key Takeaways
+
+- Two binary trees are identical only when both their values and structures match.
+- Recursion is a natural way to compare corresponding nodes in two trees.
+- Comparing `null` positions is necessary because tree structure matters.
+- `p == q` compares object references, not node values.
+- `p.val == q.val` compares the actual values stored in the nodes.
+- Base cases are essential for handling empty subtrees.
+- The `&&` operator ensures that every comparison must succeed.
+- Short-circuit evaluation allows the algorithm to stop when a mismatch is found.
+- Recursive tree problems can often be solved by comparing smaller subtrees.
+
+**Pattern Learned:** Binary Tree + DFS + Recursion + Boolean Conditions
+
+## 🔗 LeetCode Problem
+
+[100. Same Tree](https://leetcode.com/problems/same-tree/)
