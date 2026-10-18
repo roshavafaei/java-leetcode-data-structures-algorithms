@@ -1,49 +1,58 @@
-# Java LeetCode DSA Solutions
+# ☕ Java LeetCode & DSA Solutions
 
 Welcome to my LeetCode journey! 👋
 
-This repository contains my Java solutions, notes, and learning process while solving LeetCode problems.
+This repository is a collection of my **LeetCode solutions in Java**, organized by data structures and algorithms.
 
-My goal is  to understand algorithms, improve code quality through refactoring, and document what I learn along the way.
+It documents not only the problems I've solved, but also the concepts, problem-solving techniques, and lessons I've learned along the way.
+
+My goal is to strengthen my understanding of **Data Structures & Algorithms**, write clean and efficient Java code, and continuously improve my problem-solving skills.
 
 ---
 
-## Repository Structure
+## 📂 Repository Structure
+
+Solutions are organized by topic to make them easier to explore and review.
+
+```text
 java-leetcode-solutions/
 │
-├── linked-list/
 ├── arrays/
+├── linked-list/
 ├── stack/
 ├── queue/
+├── hash-table/
 ├── trees/
+├── heaps/
+├── tries/
 ├── graph/
-├── dynamic-programming/
-└── ...
+└── dynamic-programming/
+```
+
+Each problem includes its Java solution and, where applicable, a README explaining the approach and key concepts.
 
 ---
 
-## My LeetCode Profile
+## 🧠 My Learning Approach
 
-You can also view my accepted submissions on LeetCode:
+For each LeetCode problem, I follow a consistent workflow:
 
-🔗 https://leetcode.com/u/roshavafaei/
+1. **Understand** — Analyze the problem, constraints, and examples.
+2. **Solve** — Develop my own solution and implement it in Java.
+3. **Optimize** — Review time and space complexity and explore improvements.
+4. **Refactor** — Improve code readability and structure.
+5. **Document** — Record the approach, important insights, and lessons learned.
 
-## Learning Process
-
-For every problem, I follow this workflow:
-
-1. Understand the problem.
-2. Solve it on my own.
-3. Review and refactor the solution.
-4. Document what I learned.
-5. Push the final version to GitHub.
+I focus on understanding **why a solution works**, rather than simply memorizing code.
 
 ---
 
-## Progress
+## 📊 Problem-Solving Progress
 
-| Topic | Solved |
-|-------|--------|
+My current progress across different DSA topics:
+
+| Topic | Problems Solved |
+|---|---:|
 | Linked List | 8 |
 | Arrays | 9 |
 | Stack | 6 |
@@ -54,7 +63,58 @@ For every problem, I follow this workflow:
 | Tries | 2 |
 | Graph | 1 |
 | Dynamic Programming | 0 |
+| **Total** | **43** |
+
+*Progress is updated as I solve and document more problems.*
 
 ---
 
-Thanks for visiting my repository!
+## 🛠️ Technologies & Concepts
+
+**Programming Language:** Java
+
+**Platform:** LeetCode
+
+**Core Concepts:**
+- Arrays, Strings & Hashing
+- Linked Lists, Stacks & Queues
+- Trees, Heaps & Tries
+- Graph Traversal (BFS & DFS)
+- Two Pointers & Sliding Window
+- Recursion & Sorting
+- Time & Space Complexity Analysis
+
+---
+
+## 🎯 Goals
+
+Through this repository, I aim to:
+
+- Build a strong foundation in Data Structures & Algorithms.
+- Recognize common problem-solving patterns.
+- Improve algorithmic thinking and Java proficiency.
+- Write readable, maintainable, and efficient solutions.
+- Track my progress and revisit previously solved problems.
+- Prepare for technical coding interviews.
+
+---
+
+## 🔗 LeetCode Profile
+
+You can explore my LeetCode profile and accepted submissions here:
+
+**[View My LeetCode Profile](https://leetcode.com/u/roshavafaei/)**
+
+---
+
+## 🌱 Continuous Learning
+
+This repository is an ongoing learning project.
+
+As I discover better approaches or learn new concepts, I may revisit and refactor earlier solutions.
+
+The focus is not just on the number of problems solved, but on the **understanding and improvement gained from each problem**.
+
+---
+
+Thanks for visiting! ⭐
