@@ -61,9 +61,9 @@ My current progress across different DSA topics:
 | Trees | 6 |
 | Heaps | 2 |
 | Tries | 2 |
-| Graph | 1 |
+| Graph | 2 |
 | Dynamic Programming | 0 |
-| **Total** | **43** |
+| **Total** | **42** |
 
 *Progress is updated as I solve and document more problems.*
 
