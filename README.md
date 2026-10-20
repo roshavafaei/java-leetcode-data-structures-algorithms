@@ -63,7 +63,7 @@ My current progress across different DSA topics:
 | Tries | 2 |
 | Graph | 2 |
 | Dynamic Programming | 0 |
-| **Total** | **42** |
+| **Total** | **44** |
 
 *Progress is updated as I solve and document more problems.*
 
